@@ -23,7 +23,7 @@ public class MarkdownParseTest {
         // System.out.println(links);
         assertEquals(List.of("https://something.com", "some-page.html"), links);
         // Uses List.of because this creates an ArrayList<String> and we're comparing
-        // it to links which is an ArrayList<String> object. If links was simply just
+        // it to "links" which is an ArrayList<String> object. If links was simply just
         // a String, List.of wouldn't be needed.
     }
 
@@ -34,7 +34,7 @@ public class MarkdownParseTest {
 	    String contents = Files.readString(fileName);
         ArrayList<String> links = MarkdownParse.getLinks(contents);
         // System.out.println(links);
-        assertEquals(List.of(""), links);
+        assertEquals(List.of("testlink.com", "testlink2.com"), links);
     }
 
     @Test
@@ -44,6 +44,27 @@ public class MarkdownParseTest {
 	    String contents = Files.readString(fileName);
         ArrayList<String> links = MarkdownParse.getLinks(contents);
         // System.out.println(links);
-        assertEquals(List.of("link.(com"), links);
+        assertEquals(List.of("link.com", "link.html"), links);
+    }
+
+    @Test
+    public void test4() throws IOException
+    {
+        Path fileName = Path.of("test-file4.md");
+	    String contents = Files.readString(fileName);
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        ArrayList<String> expected = new ArrayList<>();
+        // System.out.println(links);
+        assertEquals(expected, links);
+    }
+
+    @Test
+    public void test5() throws IOException
+    {
+        Path fileName = Path.of("test-file5.md");
+	    String contents = Files.readString(fileName);
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        // System.out.println(links);
+        assertEquals(List.of("link.com"), links);
     }
 }
