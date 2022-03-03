@@ -31,6 +31,11 @@ public class MarkdownParse {
 
     public static ArrayList<String> getLinks(String markdown) {
         ArrayList<String> toReturn = new ArrayList<>();
+        if (!markdown.contains("[") && !markdown.contains("]") && !markdown.contains("(") && !markdown.contains(")"))
+        {
+            System.out.println("This file does not contain links.");
+            return toReturn;
+        }
         // find the next [, then find the ], then find the (, then take up to
         // the next )
         int currentIndex = 0;
