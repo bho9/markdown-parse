@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.commonmark.node.*;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
 public class MarkdownParse {
     public static Map<String, List<String>> getLinks(File dirOrFile) throws IOException {
@@ -31,7 +34,7 @@ public class MarkdownParse {
 
     public static ArrayList<String> getLinks(String markdown) {
         ArrayList<String> toReturn = new ArrayList<>();
-        if (!markdown.contains("[") && !markdown.contains("]") && !markdown.contains("(") && !markdown.contains(")"))
+        /* if (!markdown.contains("[") && !markdown.contains("]") && !markdown.contains("(") && !markdown.contains(")"))
         {
             System.out.println("This file does not contain links.");
             return toReturn;
@@ -56,12 +59,25 @@ public class MarkdownParse {
             currentIndex = closeParen + 1;
 
             // System.out.println("Open parenthesis index: " + openParen);
-        }
+        } */
+        WordCountVisitor2 visitor = new WordCountVisitor2();
+        toReturn.add(visitor.links.toString());
+
         return toReturn;
     }
     public static void main(String[] args) throws IOException {
         Path fileName = Path.of(args[0]);
         Map<String, List<String>> links = getLinks(fileName.toFile());
         System.out.println(links);
+    }
+}
+
+class WordCountVisitor2 extends AbstractVisitor {
+    ArrayList<String> links = new ArrayList<String>();
+
+    @Override
+    public void visit(Link link)
+    {
+        links.add(link.toString());
     }
 }
